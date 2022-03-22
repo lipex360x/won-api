@@ -1,19 +1,51 @@
-/*
- *
- * HomePage
- *
- */
+import React, { memo, useState, useEffect } from 'react'
+import { Header } from '@buffetjs/custom'
+import { Table } from '@buffetjs/core'
 
-import React, { memo } from 'react';
-// import PropTypes from 'prop-types';
-import pluginId from '../../pluginId';
+import axios from "axios"
+
+import styled from 'styled-components'
+
+const Wrapper = styled.div`
+  padding: 18px 30px;
+`
+
 
 const HomePage = () => {
+  const [rows, setRows] = useState([])
+
+  useEffect(() => {
+    axios.get("https://examples.wenzhixin.net.cn/examples/bootstrap_table/data")
+      .then((res) => setRows(res.data.rows))
+
+  }, [])
+
+  const headers = [
+    {
+      name: 'Id',
+      value: 'id',
+    },
+
+    {
+      name: 'Name',
+      value: 'name',
+    },
+
+    {
+      name: 'Price',
+      value: 'price',
+    }
+  ];
+  
   return (
-    <div>
-      <h1>{pluginId}&apos;s HomePage</h1>
-      <p>Happy coding</p>
-    </div>
+    <Wrapper>
+      <Header 
+        title = {{ label: 'Repositories' }}
+        content = "A list of repositories"
+      />
+      <Table headers={headers} rows={rows} />
+    </Wrapper>
+    
   );
 };
 
